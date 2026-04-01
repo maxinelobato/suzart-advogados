@@ -1,93 +1,153 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
 import React, { useState } from 'react';
+
+const W = {
+  window: {
+    border: '2px solid',
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    backgroundColor: '#d4d0c8',
+    boxShadow: '2px 2px 0 #000000',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+  } as React.CSSProperties,
+  titlebar: {
+    background: 'linear-gradient(to right, #000080, #1084d0)',
+    color: '#ffffff',
+    fontWeight: 'bold' as const,
+    fontSize: '11px',
+    padding: '3px 6px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    userSelect: 'none' as const,
+    fontFamily: 'Tahoma, Arial, sans-serif',
+  } as React.CSSProperties,
+};
+
+const FAQ = [
+  { q: 'Quanto custa uma consulta?', a: 'Os valores variam conforme a complexidade do caso. Entre em contato para uma avaliação inicial.' },
+  { q: 'A primeira consulta é gratuita?', a: 'Sim, oferecemos uma primeira consulta de orientação sem compromisso para entender seu caso.' },
+  { q: 'Atendem online?', a: 'Sim, realizamos atendimentos via videoconferência para sua maior comodidade e agilidade.' },
+  { q: 'Quais áreas atendem?', a: 'Atendemos Direito Civil, Trabalhista, Família, Empresarial, Imobiliário e Consumidor.' },
+  { q: 'Como funciona o processo?', a: 'Iniciamos com a análise documental, seguida da estratégia jurídica e acompanhamento em todas as instâncias.' },
+  { q: 'Como agendar?', a: 'Basta clicar no botão do WhatsApp ou preencher o formulário abaixo. Respondemos em até 2 horas.' },
+];
 
 export function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const FadeIn = ({ children, delay = 0, y = 20, x = 0, ...props }: any) => (
-    <motion.div
-      initial={{ opacity: 0, y, x }}
-      whileInView={{ opacity: 1, y: 0, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-
-  const FAQ = [
-    {
-      q: 'Quanto custa uma consulta?',
-      a: 'Os valores variam conforme a complexidade do caso. Entre em contato para uma avaliação inicial.',
-    },
-    {
-      q: 'A primeira consulta é gratuita?',
-      a: 'Sim, oferecemos uma primeira consulta de orientação sem compromisso para entender seu caso.',
-    },
-    {
-      q: 'Atendem online?',
-      a: 'Sim, realizamos atendimentos via videoconferência para sua maior comodidade e agilidade.',
-    },
-    {
-      q: 'Quais áreas atendem?',
-      a: 'Atendemos Direito Civil, Trabalhista, Família, Empresarial, Imobiliário e Consumidor.',
-    },
-    {
-      q: 'Como funciona o processo?',
-      a: 'Iniciamos com a análise documental, seguida da estratégia jurídica e acompanhamento em todas as instâncias.',
-    },
-    {
-      q: 'Como agendar?',
-      a: 'Basta clicar no botão do WhatsApp ou preencher o formulário abaixo. Respondemos em até 2 horas.',
-    },
-  ];
-
   return (
-    <section id="faq" className="py-24 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">
-              Dúvidas Frequentes
-            </h2>
-            <p className="text-gray-500">
+    <section
+      id="faq"
+      style={{
+        backgroundColor: '#008080',
+        padding: '24px 16px',
+        fontFamily: 'Tahoma, Arial, sans-serif',
+      }}
+    >
+      <div style={{ maxWidth: '680px', margin: '0 auto' }}>
+        <div style={W.window}>
+          <div style={W.titlebar}>
+            <span>❓</span>
+            <span>Dúvidas Frequentes — Ajuda</span>
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '2px' }}>
+              {['_', '□', '✕'].map((b, i) => (
+                <div key={i} style={{ width: '16px', height: '14px', backgroundColor: '#d4d0c8', border: '1px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#000000', cursor: 'pointer' }}>
+                  {b}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ padding: '12px', backgroundColor: '#d4d0c8' }}>
+            {/* Toolbar */}
+            <div style={{ display: 'flex', gap: '4px', marginBottom: '10px' }}>
+              {['Voltar', 'Avançar', 'Página Inicial', 'Imprimir'].map((btn) => (
+                <button
+                  key={btn}
+                  style={{
+                    backgroundColor: '#d4d0c8',
+                    border: '2px solid',
+                    borderTopColor: '#ffffff',
+                    borderLeftColor: '#ffffff',
+                    borderBottomColor: '#404040',
+                    borderRightColor: '#404040',
+                    fontSize: '10px',
+                    padding: '2px 8px',
+                    cursor: 'pointer',
+                    fontFamily: 'Tahoma, Arial, sans-serif',
+                  }}
+                >
+                  {btn}
+                </button>
+              ))}
+            </div>
+
+            <p style={{ fontSize: '11px', marginBottom: '10px', color: '#000000' }}>
               Tudo o que você precisa saber antes de iniciar seu processo.
             </p>
-          </div>
-        </FadeIn>
 
-        <div className="space-y-4">
-          {FAQ.map((item, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-                <button
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full px-6 py-5 flex justify-between items-center text-left hover:bg-gray-50 transition-colors"
-                >
-                  <span className="font-bold text-primary">{item.q}</span>
-                  {openIndex === i ? (
-                    <ChevronUp className="text-gold" />
-                  ) : (
-                    <ChevronDown className="text-gray-400" />
-                  )}
-                </button>
-                <AnimatePresence>
+            {/* Tree list of FAQ */}
+            <div
+              style={{
+                border: '2px solid',
+                borderTopColor: '#404040',
+                borderLeftColor: '#404040',
+                borderBottomColor: '#ffffff',
+                borderRightColor: '#ffffff',
+                backgroundColor: '#ffffff',
+                overflow: 'hidden',
+              }}
+            >
+              {FAQ.map((item, i) => (
+                <div key={i}>
+                  {/* Question row */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '6px',
+                      padding: '6px 8px',
+                      cursor: 'pointer',
+                      backgroundColor: openIndex === i ? '#000080' : (i % 2 === 0 ? '#f0f0f0' : '#ffffff'),
+                      color: openIndex === i ? '#ffffff' : '#000000',
+                      borderBottom: '1px solid #d0d0d0',
+                    }}
+                    onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  >
+                    <span style={{ fontSize: '9px', color: openIndex === i ? '#ffffff' : '#808080', marginTop: '1px', flexShrink: 0 }}>
+                      {openIndex === i ? '▼' : '▶'}
+                    </span>
+                    <span style={{ fontSize: '11px', fontWeight: 'bold' }}>{item.q}</span>
+                  </div>
+                  {/* Answer row */}
                   {openIndex === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="px-6 pb-5 text-gray-600 leading-relaxed"
+                    <div
+                      style={{
+                        padding: '8px 8px 8px 22px',
+                        backgroundColor: '#fffff0',
+                        borderBottom: '1px solid #d0d0d0',
+                        fontSize: '11px',
+                        lineHeight: '1.5',
+                        color: '#000000',
+                        borderLeft: '3px solid #000080',
+                      }}
                     >
                       {item.a}
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
-              </div>
-            </FadeIn>
-          ))}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ backgroundColor: '#d4d0c8', borderTop: '1px solid #808080', padding: '2px 4px', fontSize: '10px', display: 'flex', gap: '4px' }}>
+            <div style={{ border: '1px solid', borderTopColor: '#808080', borderLeftColor: '#808080', borderBottomColor: '#ffffff', borderRightColor: '#ffffff', padding: '0 6px' }}>
+              {FAQ.length} pergunta(s)
+            </div>
+          </div>
         </div>
       </div>
     </section>

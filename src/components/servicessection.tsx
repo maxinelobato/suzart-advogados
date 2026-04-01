@@ -1,129 +1,153 @@
-import clsx, { ClassValue } from 'clsx';
-import {
-  ArrowRight,
-  Briefcase,
-  Gavel,
-  MapPin,
-  Scale,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
-import { motion } from 'motion/react';
-import { twMerge } from 'tailwind-merge';
+import React from 'react';
+
+const winStyle = {
+  window: {
+    border: '2px solid',
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    backgroundColor: '#d4d0c8',
+    boxShadow: '2px 2px 0 #000000',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+  } as React.CSSProperties,
+  titlebar: (color = '#000080') => ({
+    background: `linear-gradient(to right, ${color}, ${color}88)`,
+    color: '#ffffff',
+    fontWeight: 'bold' as const,
+    fontSize: '11px',
+    padding: '3px 6px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    userSelect: 'none' as const,
+    fontFamily: 'Tahoma, Arial, sans-serif',
+  }),
+  btn: {
+    backgroundColor: '#d4d0c8',
+    border: '2px solid',
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+    padding: '3px 12px',
+    cursor: 'pointer',
+    color: '#000000',
+    textDecoration: 'none',
+    display: 'inline-block',
+  } as React.CSSProperties,
+};
+
+const SERVICES = [
+  { title: 'Direito Civil', desc: 'Resolução de conflitos, contratos, responsabilidade civil e direitos reais.', icon: '⚖', color: '#000080' },
+  { title: 'Direito Trabalhista', desc: 'Defesa dos direitos do trabalhador e consultoria para empresas.', icon: '💼', color: '#008000' },
+  { title: 'Direito de Família', desc: 'Divórcios, guarda, inventários e planejamento sucessório.', icon: '👨‍👩‍👧', color: '#800000' },
+  { title: 'Direito Empresarial', desc: 'Assessoria jurídica completa para o crescimento do seu negócio.', icon: '🏢', color: '#800080' },
+  { title: 'Consultoria Jurídica', desc: 'Prevenção de riscos e orientação estratégica personalizada.', icon: '🛡', color: '#005050' },
+  { title: 'Direito Imobiliário', desc: 'Regularização de imóveis, contratos de compra e venda e locação.', icon: '🏠', color: '#804000' },
+];
+
+const WHATSAPP_LINK = `https://wa.me/5511950391906?text=Olá! Vi o site da Suzart Advogados e gostaria de saber mais.`;
 
 export function ServicesSection() {
-  function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-  }
-
-  const FadeIn = ({ children, delay = 0, y = 20, x = 0, ...props }: any) => (
-    <motion.div
-      initial={{ opacity: 0, y, x }}
-      whileInView={{ opacity: 1, y: 0, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-
-  const SERVICES = [
-    {
-      title: 'Direito Civil',
-      description:
-        'Resolução de conflitos, contratos, responsabilidade civil e direitos reais.',
-      icon: Scale,
-      size: 'h-[200px]',
-    },
-    {
-      title: 'Direito Trabalhista',
-      description:
-        'Defesa dos direitos do trabalhador e consultoria para empresas.',
-      icon: Briefcase,
-      size: 'h-[250px]',
-    },
-    {
-      title: 'Direito de Família',
-      description: 'Divórcios, guarda, inventários e planejamento sucessório.',
-      icon: Users,
-      size: 'h-[220px]',
-    },
-    {
-      title: 'Direito Empresarial',
-      description:
-        'Assessoria jurídica completa para o crescimento do seu negócio.',
-      icon: Gavel,
-      size: 'h-[280px]',
-    },
-    {
-      title: 'Consultoria Jurídica',
-      description:
-        'Prevenção de riscos e orientação estratégica personalizada.',
-      icon: ShieldCheck,
-      size: 'h-[210px]',
-    },
-    {
-      title: 'Direito Imobiliário',
-      description:
-        'Regularização de imóveis, contratos de compra e venda e locação.',
-      icon: MapPin,
-      size: 'h-[240px]',
-    },
-  ];
-
-  const WHATSAPP_NUMBER = '5511950391906';
-  const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Vi o site da Suzart Advogados e gostaria de saber mais.`;
-
   return (
-    <section id="servicos" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">
-              Áreas de Atuação
-            </h2>
-            <p className="text-gray-500">
+    <section
+      id="servicos"
+      style={{
+        backgroundColor: '#008080',
+        padding: '24px 16px',
+        fontFamily: 'Tahoma, Arial, sans-serif',
+      }}
+    >
+      <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+        {/* Section window */}
+        <div style={winStyle.window}>
+          <div style={winStyle.titlebar()}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span>📁</span>
+              <span>Áreas de Atuação — Suzart Advogados</span>
+            </div>
+            <div style={{ display: 'flex', gap: '2px' }}>
+              {['_', '□', '✕'].map((b, i) => (
+                <div key={i} style={{ width: '16px', height: '14px', backgroundColor: '#d4d0c8', border: '1px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#000000', cursor: 'pointer' }}>
+                  {b}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ padding: '12px', backgroundColor: '#d4d0c8' }}>
+            <p style={{ fontSize: '11px', marginBottom: '12px', color: '#000000' }}>
               Soluções jurídicas completas para todas as suas necessidades.
             </p>
-          </div>
-        </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SERVICES.map((s, i) => (
-            <motion.div
-              key={i}
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 20 }}
-              viewport={{ once: true }}
-              whileHover={{
-                y: -10,
-                backgroundColor: 'rgba(212, 172, 13, 0.05)',
-                boxShadow: '0 25px 50px -12px rgba(0,0,0,0.15)',
-                zIndex: 10,
+            {/* Services grid */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gap: '8px',
               }}
-              className={cn(
-                'bg-gray-50 p-8 rounded-3xl border border-gray-100 transition-all group flex flex-col justify-between relative h-full',
-                s.size,
-              )}
             >
-              <div>
-                <s.icon className="w-10 h-10 text-gold mb-6 group-hover:scale-110 transition-transform" />
-                <h4 className="text-xl font-bold text-primary mb-4">
-                  {s.title}
-                </h4>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {s.description}
-                </p>
-              </div>
+              {SERVICES.map((s, i) => (
+                <div
+                  key={i}
+                  style={{
+                    ...winStyle.window,
+                    boxShadow: '1px 1px 0 #000000',
+                  }}
+                >
+                  <div style={winStyle.titlebar(s.color)}>
+                    <span>{s.icon} {s.title}</span>
+                  </div>
+                  <div style={{ padding: '8px', backgroundColor: '#d4d0c8' }}>
+                    <p style={{ fontSize: '11px', lineHeight: '1.5', marginBottom: '8px', color: '#000000' }}>
+                      {s.desc}
+                    </p>
+                    <a
+                      href={WHATSAPP_LINK}
+                      style={{
+                        ...winStyle.btn,
+                        fontSize: '10px',
+                        padding: '2px 8px',
+                      }}
+                    >
+                      Saber mais &gt;&gt;
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
               <a
                 href={WHATSAPP_LINK}
-                className="mt-6 text-primary font-bold text-sm flex items-center gap-2 hover:text-gold transition-colors"
+                style={{
+                  ...winStyle.btn,
+                  backgroundColor: '#000080',
+                  color: '#ffffff',
+                  fontWeight: 'bold',
+                  border: '2px solid',
+                  borderTopColor: '#ffffff',
+                  borderLeftColor: '#ffffff',
+                  borderBottomColor: '#404040',
+                  borderRightColor: '#404040',
+                  padding: '4px 20px',
+                }}
               >
-                Saber mais <ArrowRight className="w-4 h-4" />
+                Falar com Especialista — WhatsApp
               </a>
-            </motion.div>
-          ))}
+            </div>
+          </div>
+
+          <div style={{ backgroundColor: '#d4d0c8', borderTop: '1px solid #808080', padding: '2px 4px', fontSize: '10px', display: 'flex', gap: '4px' }}>
+            <div style={{ border: '1px solid', borderTopColor: '#808080', borderLeftColor: '#808080', borderBottomColor: '#ffffff', borderRightColor: '#ffffff', padding: '0 6px' }}>
+              {SERVICES.length} área(s) encontrada(s)
+            </div>
+          </div>
         </div>
       </div>
     </section>

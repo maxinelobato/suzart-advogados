@@ -1,200 +1,528 @@
-import { ArrowRight, ShieldCheck, Star } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { ContactBar } from './contactbar';
+import React, { useState, useEffect } from 'react';
+
+const W = {
+  window: {
+    border: '2px solid' as const,
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    backgroundColor: '#d4d0c8',
+    boxShadow: '3px 3px 0 #000000',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+  } as React.CSSProperties,
+  titlebar: {
+    background: 'linear-gradient(to right, #000080, #1084d0)',
+    color: '#ffffff',
+    fontWeight: 'bold' as const,
+    fontSize: '11px',
+    padding: '3px 6px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    userSelect: 'none' as const,
+    fontFamily: 'Tahoma, Arial, sans-serif',
+  } as React.CSSProperties,
+  btn: {
+    backgroundColor: '#d4d0c8',
+    border: '2px solid',
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+    padding: '3px 14px',
+    cursor: 'pointer',
+    color: '#000000',
+    textDecoration: 'none',
+    display: 'inline-block',
+  } as React.CSSProperties,
+  content: {
+    backgroundColor: '#ffffff',
+    border: '2px solid',
+    borderTopColor: '#404040',
+    borderLeftColor: '#404040',
+    borderBottomColor: '#ffffff',
+    borderRightColor: '#ffffff',
+  } as React.CSSProperties,
+};
 
 export function Hero() {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const [dots, setDots] = useState('');
+  const [blink, setBlink] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [loadingBar, setLoadingBar] = useState(0);
 
-  // --- Constants ---
   const WHATSAPP_NUMBER = '5511950391906';
   const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Vi o site da Suzart Advogados e gostaria de saber mais.`;
-  const GOOGLE_RATING = { score: 5, count: 159 };
+
+  useEffect(() => {
+    const dotInterval = setInterval(() => {
+      setDots((d) => (d.length >= 3 ? '' : d + '.'));
+    }, 500);
+    const blinkInterval = setInterval(() => {
+      setBlink((b) => !b);
+    }, 600);
+    const barInterval = setInterval(() => {
+      setLoadingBar((b) => (b >= 100 ? 0 : b + 2));
+    }, 80);
+    return () => {
+      clearInterval(dotInterval);
+      clearInterval(blinkInterval);
+      clearInterval(barInterval);
+    };
+  }, []);
 
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-40 pb-10"
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#008080',
+        backgroundImage: `
+          radial-gradient(circle at 20% 40%, rgba(0,0,128,0.3) 0%, transparent 50%),
+          radial-gradient(circle at 80% 60%, rgba(0,0,128,0.2) 0%, transparent 40%)
+        `,
+        paddingTop: '160px',
+        paddingBottom: '32px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '16px',
+        fontFamily: 'Tahoma, Arial, sans-serif',
+      }}
     >
-      {/* Background Video Overlay */}
-      <motion.div style={{ y }} className="absolute inset-0 z-0">
-        <motion.video
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1.2 }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: 'reverse',
-            ease: 'linear',
-          }}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-50"
-        >
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-scales-of-justice-close-up-34532-large.mp4"
-            type="video/mp4"
-          />
-          O seu navegador não suporta a tag de vídeo.
-        </motion.video>
-        {/* Gradient Overlays for Depth */}
-        <div className="absolute inset-0 bg-linear-to-b from-primary/90 via-primary/70 to-primary/90 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />
-      </motion.div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.2,
-              },
-            },
-          }}
-        >
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: -20, scale: 0.95 },
-              visible: { opacity: 1, y: 0, scale: 1 },
-            }}
-            className="flex items-center justify-center gap-3 mb-12"
-          >
-            <div className="flex text-gold">
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                >
-                  <Star className="w-5 h-5 fill-current" />
-                </motion.div>
-              ))}
-            </div>
-            <span className="text-white/90 text-xs font-bold tracking-[0.2em] uppercase bg-white/10 border border-white/20 px-5 py-1.5 rounded-full backdrop-blur-md shadow-lg">
-              {GOOGLE_RATING.score} no Google ({GOOGLE_RATING.count} avaliações)
-            </span>
-          </motion.div>
-
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 50, rotateX: 45 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                rotateX: 0,
-                transition: { duration: 1, ease: [0.215, 0.61, 0.355, 1] },
-              },
-            }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif text-white font-bold leading-[0.95] mb-10 tracking-tighter perspective-1000"
-          >
-            Defesa e Proteção <br />
-            <span className="text-gold relative inline-block italic">
-              dos seus Direitos
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ delay: 1.5, duration: 1.2, ease: 'easeInOut' }}
-                className="absolute -bottom-3 left-0 h-2 bg-gold/40 rounded-full blur-[1px]"
-              />
-            </span>
-          </motion.h1>
-
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="text-xl md:text-2xl text-white/70 font-light max-w-3xl mx-auto mb-16 leading-relaxed"
-          >
-            Advocacia de excelência em São Paulo. Unimos tradição jurídica e
-            inovação para garantir a melhor defesa dos seus interesses.
-          </motion.p>
-
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-10"
-          >
-            <div className="relative">
-              {/* Pulsing Glow Effect */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.15, 1],
-                  opacity: [0.4, 0.15, 0.4],
+      {/* MAIN HERO WINDOW */}
+      <div
+        style={{
+          ...W.window,
+          width: '100%',
+          maxWidth: '780px',
+        }}
+      >
+        {/* Title bar */}
+        <div style={W.titlebar}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span>⚖</span>
+            <span>Suzart Advogados - Defesa e Proteção dos seus Direitos</span>
+          </div>
+          <div style={{ display: 'flex', gap: '2px' }}>
+            {['_', '□', '✕'].map((b, i) => (
+              <div
+                key={i}
+                style={{
+                  width: '16px',
+                  height: '14px',
+                  backgroundColor: '#d4d0c8',
+                  border: '1px solid',
+                  borderTopColor: '#ffffff',
+                  borderLeftColor: '#ffffff',
+                  borderBottomColor: '#404040',
+                  borderRightColor: '#404040',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '9px',
+                  color: '#000000',
+                  cursor: 'pointer',
+                  lineHeight: '1',
                 }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 3,
-                  ease: 'easeInOut',
-                }}
-                className="absolute -inset-5 bg-gold/40 rounded-full blur-2xl z-0"
-              />
-
-              <motion.a
-                href={WHATSAPP_LINK}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: '0 0 60px rgba(212, 172, 13, 0.8)',
-                  backgroundColor: '#e5bc11',
-                }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto bg-gold text-white px-14 py-4 rounded-full text-2xl font-bold transition-all shadow-[0_20px_50px_rgba(212,172,13,0.4)] flex items-center justify-center gap-4 group relative overflow-hidden z-10"
               >
-                <span className="relative z-10">Agendar Consulta</span>
-                <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform relative z-10" />
-
-                {/* Shimmer Effect */}
-                <motion.div
-                  animate={{
-                    left: ['-100%', '200%'],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 3,
-                    ease: 'linear',
-                    repeatDelay: 1,
-                  }}
-                  className="absolute top-0 w-1/2 h-full bg-linear-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] z-0 pointer-events-none"
-                />
-              </motion.a>
-            </div>
-
-            <div className="flex flex-col items-start gap-1">
-              <div className="flex items-center gap-2 text-white/80 text-sm font-semibold">
-                <ShieldCheck className="w-5 h-5 text-gold" />
-                <span>Atendimento Prioritário</span>
+                {b}
               </div>
-              <p className="text-white/40 text-xs ml-7 italic">
-                Resposta em até 15 minutos
-              </p>
-            </div>
-          </motion.div>
+            ))}
+          </div>
+        </div>
 
-          <ContactBar />
-
-          {/* Scroll Indicator moved here */}
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="mt-16 flex flex-col items-center gap-3 text-white/40"
+        {/* Content area */}
+        <div style={{ padding: '16px', backgroundColor: '#d4d0c8' }}>
+          {/* Stars / Rating badge */}
+          <div
+            style={{
+              backgroundColor: '#000080',
+              color: '#ffff00',
+              fontSize: '11px',
+              padding: '3px 8px',
+              marginBottom: '12px',
+              display: 'inline-block',
+              border: '1px solid #ffffff',
+              fontFamily: 'Courier New, monospace',
+            }}
           >
-            <span className="text-[9px] uppercase tracking-[0.5em] font-bold">
-              Descubra
-            </span>
-            <div className="w-px h-16 bg-linear-to-b from-gold/60 via-gold/20 to-transparent" />
-          </motion.div>
-        </motion.div>
+            ★★★★★ Nota 5.0 no Google — 159 avaliações satisfeitas!
+          </div>
+
+          {/* Hero content table layout */}
+          <table width="100%" cellSpacing="8" cellPadding="0" style={{ borderCollapse: 'separate' }}>
+            <tbody>
+              <tr>
+                <td width="60%" valign="top">
+                  <div
+                    style={{
+                      ...W.content,
+                      padding: '12px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: '22px',
+                        fontWeight: 'bold',
+                        color: '#000080',
+                        fontFamily: 'Times New Roman, serif',
+                        lineHeight: '1.2',
+                        marginBottom: '8px',
+                      }}
+                    >
+                      Defesa e Proteção
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '22px',
+                        fontWeight: 'bold',
+                        color: '#800000',
+                        fontFamily: 'Times New Roman, serif',
+                        fontStyle: 'italic',
+                        lineHeight: '1.2',
+                        marginBottom: '12px',
+                      }}
+                    >
+                      dos seus Direitos
+                    </div>
+                    <hr style={{ borderTop: '1px solid #808080', borderBottom: '1px solid #ffffff', margin: '8px 0' }} />
+                    <p style={{ fontSize: '11px', color: '#000000', lineHeight: '1.5', marginBottom: '12px' }}>
+                      Advocacia de excelência em São Paulo. Unimos tradição jurídica e inovação para garantir a melhor defesa dos seus interesses.
+                    </p>
+                    {/* Loading bar "processing" effect */}
+                    <div style={{ marginBottom: '8px' }}>
+                      <div style={{ fontSize: '10px', color: '#000080', marginBottom: '2px' }}>
+                        Carregando experiência jurídica{dots}
+                      </div>
+                      <div
+                        style={{
+                          height: '12px',
+                          border: '2px solid',
+                          borderTopColor: '#404040',
+                          borderLeftColor: '#404040',
+                          borderBottomColor: '#ffffff',
+                          borderRightColor: '#ffffff',
+                          backgroundColor: '#ffffff',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: '100%',
+                            width: `${loadingBar}%`,
+                            background: 'repeating-linear-gradient(to right, #000080 0px, #000080 10px, #3070d0 10px, #3070d0 12px)',
+                            transition: 'width 0.08s linear',
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '12px' }}>
+                      <a
+                        href={WHATSAPP_LINK}
+                        style={{
+                          ...W.btn,
+                          backgroundColor: '#000080',
+                          color: '#ffffff',
+                          fontWeight: 'bold',
+                          fontSize: '11px',
+                          border: '2px solid',
+                          borderTopColor: '#ffffff',
+                          borderLeftColor: '#ffffff',
+                          borderBottomColor: '#404040',
+                          borderRightColor: '#404040',
+                        }}
+                      >
+                        OK — Agendar Consulta
+                      </a>
+                      <button
+                        style={{ ...W.btn, fontSize: '11px' }}
+                        onClick={() => setDialogOpen(true)}
+                      >
+                        Saiba Mais...
+                      </button>
+                    </div>
+                  </div>
+                </td>
+                <td width="40%" valign="top">
+                  {/* Info panel */}
+                  <div style={{ ...W.window, marginBottom: '8px' }}>
+                    <div
+                      style={{
+                        ...W.titlebar,
+                        background: 'linear-gradient(to right, #808000, #c0c000)',
+                      }}
+                    >
+                      <span>⚠ Atenção</span>
+                    </div>
+                    <div style={{ padding: '8px', fontSize: '11px', backgroundColor: '#d4d0c8' }}>
+                      <p style={{ marginBottom: '4px' }}>
+                        <strong>1ª Consulta GRATUITA!</strong>
+                      </p>
+                      <p>Resposta em até 15 minutos.</p>
+                    </div>
+                  </div>
+
+                  <div style={{ ...W.window }}>
+                    <div style={{ ...W.titlebar }}>
+                      <span>📋 Contato Rápido</span>
+                    </div>
+                    <div style={{ padding: '8px', fontSize: '10px', backgroundColor: '#d4d0c8', lineHeight: '1.7' }}>
+                      <div>📍 Penha de França, SP</div>
+                      <div>📞 (11) 95039-1906</div>
+                      <div>🕘 Seg–Sex: 09h–18h</div>
+                      <div
+                        style={{
+                          color: blink ? '#ff0000' : '#d4d0c8',
+                          fontWeight: 'bold',
+                          marginTop: '4px',
+                          fontSize: '11px',
+                        }}
+                      >
+                        ● ONLINE AGORA
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* Contact info strip */}
+          <div
+            style={{
+              marginTop: '12px',
+              backgroundColor: '#000080',
+              color: '#ffffff',
+              padding: '6px 10px',
+              fontSize: '11px',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '16px',
+              justifyContent: 'space-around',
+              border: '2px solid',
+              borderTopColor: '#ffffff',
+              borderLeftColor: '#ffffff',
+              borderBottomColor: '#404040',
+              borderRightColor: '#404040',
+            }}
+          >
+            <span>📍 Av. Amador Bueno da Veiga, 1232 - Penha de França, SP</span>
+            <span>📞 (11) 95039-1906</span>
+            <span>🕘 Segunda a Sexta: 09h às 18h</span>
+          </div>
+        </div>
+
+        {/* Status bar */}
+        <div
+          style={{
+            backgroundColor: '#d4d0c8',
+            borderTop: '1px solid #808080',
+            padding: '2px 4px',
+            fontSize: '10px',
+            display: 'flex',
+            gap: '4px',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              border: '1px solid',
+              borderTopColor: '#808080',
+              borderLeftColor: '#808080',
+              borderBottomColor: '#ffffff',
+              borderRightColor: '#ffffff',
+              padding: '0 6px',
+              fontSize: '10px',
+            }}
+          >
+            Pronto
+          </div>
+          <div
+            style={{
+              border: '1px solid',
+              borderTopColor: '#808080',
+              borderLeftColor: '#808080',
+              borderBottomColor: '#ffffff',
+              borderRightColor: '#ffffff',
+              padding: '0 6px',
+              fontSize: '10px',
+            }}
+          >
+            🔒 Conexão Segura — OAB/SP
+          </div>
+          <div style={{ flex: 1 }} />
+          <div
+            style={{
+              border: '1px solid',
+              borderTopColor: '#808080',
+              borderLeftColor: '#808080',
+              borderBottomColor: '#ffffff',
+              borderRightColor: '#ffffff',
+              padding: '0 6px',
+              fontSize: '10px',
+            }}
+          >
+            Zona da Internet
+          </div>
+        </div>
       </div>
+
+      {/* STATS — small windows floating */}
+      <div
+        style={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          width: '100%',
+          maxWidth: '780px',
+        }}
+      >
+        {[
+          { val: '14+', label: 'Anos de Experiência' },
+          { val: '477+', label: 'Clientes Satisfeitos' },
+          { val: '1.2k+', label: 'Processos Ativos' },
+          { val: '5.0 ★', label: 'Avaliação Google' },
+        ].map((s, i) => (
+          <div key={i} style={{ ...W.window, flex: '1', minWidth: '120px', maxWidth: '180px' }}>
+            <div
+              style={{
+                ...W.titlebar,
+                background:
+                  i === 0
+                    ? 'linear-gradient(to right, #000080, #1084d0)'
+                    : i === 1
+                    ? 'linear-gradient(to right, #008000, #00a000)'
+                    : i === 2
+                    ? 'linear-gradient(to right, #800000, #c00000)'
+                    : 'linear-gradient(to right, #808000, #c0a000)',
+              }}
+            >
+              <span>📊 {s.label}</span>
+            </div>
+            <div
+              style={{
+                padding: '8px',
+                textAlign: 'center',
+                backgroundColor: '#d4d0c8',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  color: '#000080',
+                  fontFamily: 'Times New Roman, serif',
+                }}
+              >
+                {s.val}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        style={{
+          color: '#ffffff',
+          fontSize: '10px',
+          fontFamily: 'Courier New, monospace',
+          textAlign: 'center',
+          marginTop: '8px',
+        }}
+      >
+        <div>▼ Role para ver mais ▼</div>
+        <div style={{ fontSize: '9px', color: '#c0c0c0' }}>Clique aqui para continuar{dots}</div>
+      </div>
+
+      {/* DIALOG BOX */}
+      {dialogOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 99999,
+          }}
+        >
+          <div style={{ ...W.window, width: '360px' }}>
+            <div style={W.titlebar}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <span>ℹ</span>
+                <span>Sobre — Suzart Advogados</span>
+              </div>
+              <div
+                style={{
+                  width: '16px',
+                  height: '14px',
+                  backgroundColor: '#d4d0c8',
+                  border: '1px solid',
+                  borderTopColor: '#ffffff',
+                  borderLeftColor: '#ffffff',
+                  borderBottomColor: '#404040',
+                  borderRightColor: '#404040',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '9px',
+                  color: '#000000',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setDialogOpen(false)}
+              >
+                ✕
+              </div>
+            </div>
+            <div style={{ padding: '16px', backgroundColor: '#d4d0c8' }}>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+                <div style={{ fontSize: '32px' }}>⚖</div>
+                <div style={{ fontSize: '11px', lineHeight: '1.6' }}>
+                  Com mais de 14 anos de experiência em São Paulo, a Suzart Advogados oferece advocacia técnica, ética e focada no cliente. Nossa equipe é especializada nas melhores instituições do país.
+                </div>
+              </div>
+              <hr style={{ borderTop: '1px solid #808080', borderBottom: '1px solid #ffffff', margin: '8px 0' }} />
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '6px' }}>
+                <a
+                  href={WHATSAPP_LINK}
+                  style={{
+                    ...W.btn,
+                    backgroundColor: '#000080',
+                    color: '#ffffff',
+                    fontWeight: 'bold',
+                    border: '2px solid',
+                    borderTopColor: '#ffffff',
+                    borderLeftColor: '#ffffff',
+                    borderBottomColor: '#404040',
+                    borderRightColor: '#404040',
+                  }}
+                >
+                  OK
+                </a>
+                <button
+                  style={W.btn}
+                  onClick={() => setDialogOpen(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

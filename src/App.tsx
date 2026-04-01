@@ -15,19 +15,19 @@ import { FloatingWhatsApp } from './components/floatingwhatsApp';
 
 export default function App() {
   return (
-    <div className="min-h-screen selection:bg-gold selection:text-white">
+    <div style={{ minHeight: '100vh', backgroundColor: '#008080', fontFamily: 'Tahoma, Arial, sans-serif' }}>
       <Navbar />
-      <main>
+      <main style={{ paddingTop: '140px' }}>
         <Hero />
-        <FAQSection />
+        <ServicesSection />
+        <AboutSection />
+        <Differentials />
+        <StatsSection />
+        <HowItWorks />
         <Testimonials />
         <GallerySection />
-        <HowItWorks />
         <PricingSection />
-        <Differentials />
-        <AboutSection />
-        <StatsSection />
-        <ServicesSection />
+        <FAQSection />
         <LocationSection />
       </main>
       <Footer />

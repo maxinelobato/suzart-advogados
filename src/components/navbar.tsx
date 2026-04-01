@@ -1,18 +1,8 @@
-import { clsx, type ClassValue } from 'clsx';
-import { Menu, Scale, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
-import React, { useState, useEffect } from 'react';
-import { twMerge } from 'tailwind-merge';
+import { Scale } from 'lucide-react';
+import React, { useState } from 'react';
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
 
   const navLinks = [
     { name: 'Início', href: '#inicio' },
@@ -22,112 +12,313 @@ export function Navbar() {
     { name: 'FAQ', href: '#faq' },
   ];
 
-  function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-  }
-
-  // --- Constants ---
   const WHATSAPP_NUMBER = '5511950391906';
   const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Vi o site da Suzart Advogados e gostaria de saber mais.`;
 
   return (
     <nav
-      className={cn(
-        'fixed top-0 w-full z-100 transition-all duration-500 ease-in-out',
-        scrolled
-          ? 'bg-white/70 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg shadow-primary/5'
-          : 'bg-transparent py-6',
-      )}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9999,
+        fontFamily: 'Tahoma, Arial, sans-serif',
+        fontSize: '11px',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <Scale
-            className={cn(
-              'w-8 h-8 transition-colors duration-500',
-              scrolled ? 'text-primary' : 'text-white',
-            )}
-          />
-          <span
-            className={cn(
-              'text-xl font-serif font-bold tracking-tight transition-colors duration-500',
-              scrolled ? 'text-primary' : 'text-white',
-            )}
-          >
-            Suzart Advogados
-          </span>
+      {/* Ticker strip */}
+      <div
+        style={{
+          backgroundColor: '#000080',
+          color: '#ffffff',
+          fontSize: '11px',
+          padding: '2px 8px',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          fontFamily: 'Courier New, monospace',
+        }}
+      >
+        <span style={{ color: '#ffff00', fontWeight: 'bold', marginRight: '8px' }}>
+          *** NOVIDADE ***
+        </span>
+        <marquee scrollamount="3" style={{ flex: 1 }}>
+          Bem-vindo ao Suzart Advogados! &nbsp;&nbsp;&nbsp; Consulta gratuita disponível! &nbsp;&nbsp;&nbsp; Atendimento Online e Presencial &nbsp;&nbsp;&nbsp; Tel: (11) 95039-1906 &nbsp;&nbsp;&nbsp; Segunda a Sexta: 09h às 18h &nbsp;&nbsp;&nbsp; Av. Amador Bueno da Veiga, 1232 - Penha de França, SP &nbsp;&nbsp;&nbsp; 5 estrelas no Google! (159 avaliações) &nbsp;&nbsp;&nbsp;
+        </marquee>
+        <span style={{ color: '#ffff00', fontWeight: 'bold', marginLeft: '8px' }}>
+          *** NOVIDADE ***
+        </span>
+      </div>
+
+      {/* Main toolbar / window chrome */}
+      <div
+        style={{
+          backgroundColor: '#d4d0c8',
+          borderBottom: '2px solid #404040',
+          borderTop: '2px solid #ffffff',
+        }}
+      >
+        {/* Title bar row */}
+        <div
+          style={{
+            background: 'linear-gradient(to right, #000080, #1084d0)',
+            color: '#ffffff',
+            fontWeight: 'bold',
+            fontSize: '11px',
+            padding: '3px 6px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            userSelect: 'none',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            {/* Small icon */}
+            <div
+              style={{
+                width: '14px',
+                height: '14px',
+                background: '#c0c0c0',
+                border: '1px solid #ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '8px',
+                color: '#000080',
+                fontWeight: 'bold',
+              }}
+            >
+              ⚖
+            </div>
+            <span>Suzart Advogados - Consultório Jurídico - Microsoft Internet Explorer</span>
+          </div>
+          <div style={{ display: 'flex', gap: '2px' }}>
+            {['_', '□', '✕'].map((btn, i) => (
+              <div
+                key={i}
+                style={{
+                  width: '16px',
+                  height: '14px',
+                  backgroundColor: '#d4d0c8',
+                  border: '1px solid',
+                  borderTopColor: '#ffffff',
+                  borderLeftColor: '#ffffff',
+                  borderBottomColor: '#404040',
+                  borderRightColor: '#404040',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '9px',
+                  color: '#000000',
+                  cursor: 'pointer',
+                  lineHeight: 1,
+                }}
+              >
+                {btn}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
+        {/* Menu bar */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0,
+            backgroundColor: '#d4d0c8',
+            padding: '2px 4px',
+            borderBottom: '1px solid #808080',
+          }}
+        >
+          {['Arquivo', 'Editar', 'Exibir', 'Favoritos', 'Ferramentas', 'Ajuda'].map((menu) => (
+            <button
+              key={menu}
+              style={{
+                padding: '2px 6px',
+                backgroundColor: activeMenu === menu ? '#000080' : 'transparent',
+                color: activeMenu === menu ? '#ffffff' : '#000000',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '11px',
+                fontFamily: 'Tahoma, Arial, sans-serif',
+              }}
+              onMouseEnter={() => setActiveMenu(menu)}
+              onMouseLeave={() => setActiveMenu(null)}
+            >
+              {menu}
+            </button>
+          ))}
+        </div>
+
+        {/* Address bar row */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            padding: '3px 6px',
+            backgroundColor: '#d4d0c8',
+            borderBottom: '1px solid #808080',
+          }}
+        >
+          {/* Back / Forward / Stop / Refresh icons */}
+          {['◄', '►', '✕', '↺'].map((icon, i) => (
+            <div
+              key={i}
+              style={{
+                width: '22px',
+                height: '22px',
+                backgroundColor: '#d4d0c8',
+                border: '2px solid',
+                borderTopColor: '#ffffff',
+                borderLeftColor: '#ffffff',
+                borderBottomColor: '#404040',
+                borderRightColor: '#404040',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '9px',
+                cursor: 'pointer',
+                flexShrink: 0,
+              }}
+            >
+              {icon}
+            </div>
+          ))}
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 'bold',
+              color: '#000000',
+              marginLeft: '4px',
+              flexShrink: 0,
+            }}
+          >
+            Endereço:
+          </span>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#ffffff',
+              border: '2px solid',
+              borderTopColor: '#404040',
+              borderLeftColor: '#404040',
+              borderBottomColor: '#ffffff',
+              borderRightColor: '#ffffff',
+              padding: '1px 4px',
+              fontSize: '11px',
+              gap: '4px',
+            }}
+          >
+            <span style={{ color: '#808080' }}>🌐</span>
+            <span>http://www.suzartadvogados.com.br/index.htm</span>
+          </div>
+          <div
+            style={{
+              width: '22px',
+              height: '22px',
+              backgroundColor: '#d4d0c8',
+              border: '2px solid',
+              borderTopColor: '#ffffff',
+              borderLeftColor: '#ffffff',
+              borderBottomColor: '#404040',
+              borderRightColor: '#404040',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '9px',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            ▶
+          </div>
+        </div>
+
+        {/* Links/nav bar */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: '#d4d0c8',
+            padding: '2px 6px',
+            gap: '2px',
+            flexWrap: 'wrap',
+            borderBottom: '1px solid #808080',
+          }}
+        >
+          <span style={{ fontSize: '11px', color: '#000000', marginRight: '4px', fontWeight: 'bold' }}>
+            Links:
+          </span>
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className={cn(
-                'text-sm font-medium transition-all duration-500 hover:text-gold relative group',
-                scrolled ? 'text-primary' : 'text-white',
-              )}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                padding: '2px 8px',
+                backgroundColor: '#d4d0c8',
+                border: '2px solid',
+                borderTopColor: '#ffffff',
+                borderLeftColor: '#ffffff',
+                borderBottomColor: '#404040',
+                borderRightColor: '#404040',
+                fontSize: '11px',
+                color: '#000000',
+                textDecoration: 'none',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={(e) => {
+                const t = e.currentTarget;
+                t.style.borderTopColor = '#404040';
+                t.style.borderLeftColor = '#404040';
+                t.style.borderBottomColor = '#ffffff';
+                t.style.borderRightColor = '#ffffff';
+              }}
+              onMouseLeave={(e) => {
+                const t = e.currentTarget;
+                t.style.borderTopColor = '#ffffff';
+                t.style.borderLeftColor = '#ffffff';
+                t.style.borderBottomColor = '#404040';
+                t.style.borderRightColor = '#404040';
+              }}
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
+          <div style={{ flex: 1 }} />
           <a
             href={WHATSAPP_LINK}
-            className={cn(
-              'px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-500 shadow-xl hover:scale-105 active:scale-95',
-              scrolled
-                ? 'bg-primary text-white hover:bg-primary/90'
-                : 'bg-gold text-white hover:bg-gold/90',
-            )}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '2px 10px',
+              backgroundColor: '#000080',
+              color: '#ffffff',
+              border: '2px solid',
+              borderTopColor: '#ffffff',
+              borderLeftColor: '#ffffff',
+              borderBottomColor: '#404040',
+              borderRightColor: '#404040',
+              fontSize: '11px',
+              fontWeight: 'bold',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              gap: '4px',
+            }}
           >
-            Consulta Gratuita
+            📞 Consulta Gratuita
           </a>
         </div>
-
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden p-2 rounded-lg transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <X className={scrolled ? 'text-primary' : 'text-white'} />
-          ) : (
-            <Menu className={scrolled ? 'text-primary' : 'text-white'} />
-          )}
-        </button>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl shadow-2xl overflow-hidden md:hidden border-t border-gray-100"
-          >
-            <div className="p-8 flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-primary text-xl font-serif font-medium border-b border-gray-50 pb-4 hover:text-gold transition-colors"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <a
-                href={WHATSAPP_LINK}
-                className="bg-primary text-white text-center py-4 rounded-xl font-bold text-lg shadow-xl shadow-primary/20"
-              >
-                Falar com Advogado
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 }

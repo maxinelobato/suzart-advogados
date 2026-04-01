@@ -1,65 +1,155 @@
-import { motion } from 'motion/react';
+import React from 'react';
+
+const W = {
+  window: {
+    border: '2px solid',
+    borderTopColor: '#ffffff',
+    borderLeftColor: '#ffffff',
+    borderBottomColor: '#404040',
+    borderRightColor: '#404040',
+    backgroundColor: '#d4d0c8',
+    boxShadow: '2px 2px 0 #000000',
+    fontFamily: 'Tahoma, Arial, sans-serif',
+    fontSize: '11px',
+  } as React.CSSProperties,
+  titlebar: {
+    background: 'linear-gradient(to right, #000080, #1084d0)',
+    color: '#ffffff',
+    fontWeight: 'bold' as const,
+    fontSize: '11px',
+    padding: '3px 6px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    userSelect: 'none' as const,
+    fontFamily: 'Tahoma, Arial, sans-serif',
+  } as React.CSSProperties,
+};
+
+const steps = [
+  { title: 'Contato Inicial', desc: 'Você nos conta seu caso via WhatsApp ou formulário.', icon: '📞' },
+  { title: 'Análise Jurídica', desc: 'Nossa equipe estuda os fatos e documentos apresentados.', icon: '📄' },
+  { title: 'Estratégia', desc: 'Definimos o melhor caminho legal para proteger seus direitos.', icon: '🗺' },
+  { title: 'Execução', desc: 'Acompanhamos cada etapa do processo com transparência total.', icon: '⚖' },
+];
 
 export function HowItWorks() {
-  const FadeIn = ({ children, delay = 0, y = 20, x = 0, ...props }: any) => (
-    <motion.div
-      initial={{ opacity: 0, y, x }}
-      whileInView={{ opacity: 1, y: 0, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-
-  const steps = [
-    {
-      title: 'Contato Inicial',
-      desc: 'Você nos conta seu caso via WhatsApp ou formulário.',
-    },
-    {
-      title: 'Análise Jurídica',
-      desc: 'Nossa equipe estuda os fatos e documentos apresentados.',
-    },
-    {
-      title: 'Estratégia',
-      desc: 'Definimos o melhor caminho legal para proteger seus direitos.',
-    },
-    {
-      title: 'Execução',
-      desc: 'Acompanhamos cada etapa do processo com transparência total.',
-    },
-  ];
-
   return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">
-              Como Funciona
-            </h2>
-            <p className="text-gray-500">
-              Transparência e agilidade em cada etapa do seu processo.
-            </p>
-          </div>
-        </FadeIn>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {steps.map((step, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="text-center group">
-                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center text-primary font-serif text-2xl font-bold mx-auto mb-6 group-hover:bg-gold group-hover:text-white transition-all">
-                  0{i + 1}
+    <section
+      style={{
+        backgroundColor: '#008080',
+        padding: '24px 16px',
+        fontFamily: 'Tahoma, Arial, sans-serif',
+      }}
+    >
+      <div style={{ maxWidth: '860px', margin: '0 auto' }}>
+        <div style={W.window}>
+          <div style={W.titlebar}>
+            <span>🔧</span>
+            <span>Como Funciona — Assistente de Configuração</span>
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: '2px' }}>
+              {['_', '□', '✕'].map((b, i) => (
+                <div key={i} style={{ width: '16px', height: '14px', backgroundColor: '#d4d0c8', border: '1px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#000000', cursor: 'pointer' }}>
+                  {b}
                 </div>
-                <h4 className="font-bold text-primary mb-2">{step.title}</h4>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {step.desc}
-                </p>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ padding: '12px', backgroundColor: '#d4d0c8' }}>
+            {/* Wizard banner */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+              <div
+                style={{
+                  backgroundColor: '#000080',
+                  width: '80px',
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '40px',
+                  padding: '8px',
+                }}
+              >
+                ⚖
               </div>
-            </FadeIn>
-          ))}
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#000080', fontFamily: 'Times New Roman, serif', marginBottom: '4px' }}>
+                  Assistente de Atendimento Jurídico
+                </div>
+                <div style={{ fontSize: '11px', color: '#000000', lineHeight: '1.5' }}>
+                  Este assistente irá guiá-lo por todas as etapas do processo jurídico. Clique em &quot;Avançar&quot; para continuar.
+                </div>
+              </div>
+            </div>
+
+            <hr style={{ borderTop: '1px solid #808080', borderBottom: '1px solid #ffffff', margin: '8px 0' }} />
+
+            {/* Steps as wizard progress */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px', marginTop: '12px' }}>
+              {steps.map((step, i) => (
+                <div
+                  key={i}
+                  style={{
+                    border: '2px solid',
+                    borderTopColor: '#ffffff',
+                    borderLeftColor: '#ffffff',
+                    borderBottomColor: '#404040',
+                    borderRightColor: '#404040',
+                    backgroundColor: '#d4d0c8',
+                    padding: '10px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      backgroundColor: '#000080',
+                      color: '#ffffff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                      fontFamily: 'Times New Roman, serif',
+                      margin: '0 auto 6px',
+                      border: '2px solid',
+                      borderTopColor: '#ffffff',
+                      borderLeftColor: '#ffffff',
+                      borderBottomColor: '#404040',
+                      borderRightColor: '#404040',
+                    }}
+                  >
+                    0{i + 1}
+                  </div>
+                  <div style={{ fontSize: '11px', fontWeight: 'bold', color: '#000080', marginBottom: '4px' }}>
+                    {step.icon} {step.title}
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#404040', lineHeight: '1.4' }}>
+                    {step.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <hr style={{ borderTop: '1px solid #808080', borderBottom: '1px solid #ffffff', margin: '12px 0 8px' }} />
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '6px' }}>
+              <button style={{ backgroundColor: '#d4d0c8', border: '2px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', fontSize: '11px', padding: '3px 14px', cursor: 'pointer', fontFamily: 'Tahoma, Arial, sans-serif' }}>
+                &lt; Voltar
+              </button>
+              <a
+                href={`https://wa.me/5511950391906?text=Olá!`}
+                style={{ backgroundColor: '#d4d0c8', border: '2px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', fontSize: '11px', padding: '3px 14px', cursor: 'pointer', fontFamily: 'Tahoma, Arial, sans-serif', color: '#000000', textDecoration: 'none', display: 'inline-block' }}
+              >
+                Avançar &gt;
+              </a>
+              <button style={{ backgroundColor: '#d4d0c8', border: '2px solid', borderTopColor: '#ffffff', borderLeftColor: '#ffffff', borderBottomColor: '#404040', borderRightColor: '#404040', fontSize: '11px', padding: '3px 14px', cursor: 'pointer', fontFamily: 'Tahoma, Arial, sans-serif' }}>
+                Cancelar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

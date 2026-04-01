@@ -1,41 +1,390 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Cormorant Garamond", serif;
-  --font-sans: "Fira Sans", sans-serif;
-  
-  --color-primary: #2a464f;
-  --color-secondary: #404b6c;
-  --color-accent: #3e2822;
-  --color-gold: #D4AC0D;
-  
-  --spacing-section: clamp(5rem, 10vw, 7.5rem);
+  --font-sans: "Tahoma", "Arial", sans-serif;
+  --font-serif: "Times New Roman", serif;
+  --font-mono: "Courier New", monospace;
+
+  /* Windows 2000 Color Palette */
+  --color-win-gray: #c0c0c0;
+  --color-win-dark-gray: #808080;
+  --color-win-light-gray: #d4d0c8;
+  --color-win-navy: #000080;
+  --color-win-white: #ffffff;
+  --color-win-black: #000000;
+  --color-win-blue-highlight: #0a246a;
+  --color-win-silver: #d4d0c8;
+  --color-win-teal: #008080;
+  --color-win-yellow: #ffff00;
+  --color-win-red: #ff0000;
+
+  /* Semantic tokens */
+  --color-primary: #000080;
+  --color-secondary: #0a246a;
+  --color-accent: #008080;
+  --color-background: #c0c0c0;
+  --color-surface: #d4d0c8;
+  --color-foreground: #000000;
+  --color-muted: #808080;
+  --color-gold: #c0a000;
+
+  --spacing-section: 2rem;
 }
 
 @layer base {
-  body {
-    @apply font-sans text-primary bg-white antialiased;
+  * {
+    box-sizing: border-box;
   }
-  
+
+  body {
+    font-family: "Tahoma", "Arial", sans-serif;
+    font-size: 11px;
+    background-color: #008080;
+    color: #000000;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVQImWNgYGD4TxAGAAImAVIJDIQoAAAAAElFTkSuQmCC");
+    image-rendering: pixelated;
+    cursor: default;
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    font-family: "Tahoma", "Arial", sans-serif;
+    font-weight: bold;
+  }
+
+  a {
+    color: #000080;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: #ff0000;
+  }
+
+  a:visited {
+    color: #800080;
   }
 }
 
+/* ========================================
+   WINDOWS 2000 UI PRIMITIVES
+   ======================================== */
+
+/* Raised (button out) border effect */
+.win-raised {
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  background-color: #d4d0c8;
+}
+
+/* Sunken (inset) border effect */
+.win-sunken {
+  border: 2px solid;
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+  background-color: #ffffff;
+}
+
+/* Window chrome - outer raised */
+.win-window {
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  background-color: #d4d0c8;
+  box-shadow: 2px 2px 0 #000000;
+}
+
+/* Window title bar */
+.win-titlebar {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: #ffffff;
+  font-family: "Tahoma", "Arial", sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Classic Win2000 button */
+.win-btn {
+  background-color: #d4d0c8;
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  font-family: "Tahoma", "Arial", sans-serif;
+  font-size: 11px;
+  padding: 3px 12px;
+  cursor: pointer;
+  color: #000000;
+  min-width: 75px;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.win-btn:hover {
+  background-color: #e0ddd8;
+}
+
+.win-btn:active {
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+  padding: 4px 11px 2px 13px;
+}
+
+/* Primary/default button (slightly darker outline) */
+.win-btn-primary {
+  background-color: #d4d0c8;
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  outline: 1px solid #000000;
+  font-family: "Tahoma", "Arial", sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 12px;
+  cursor: pointer;
+  color: #000000;
+  min-width: 75px;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.win-btn-primary:active {
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+}
+
+/* Group box / fieldset look */
+.win-groupbox {
+  border: 1px solid #808080;
+  border-top: none;
+  background-color: #d4d0c8;
+  padding: 8px;
+  position: relative;
+  margin-top: 8px;
+}
+
+.win-groupbox-title {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  background-color: #d4d0c8;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* List item hover */
+.win-listitem:hover {
+  background-color: #0a246a;
+  color: #ffffff;
+}
+
+/* Status bar */
+.win-statusbar {
+  background-color: #d4d0c8;
+  border-top: 1px solid #808080;
+  font-size: 11px;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.win-statusbar-panel {
+  border: 1px solid;
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+  padding: 1px 6px;
+  font-size: 11px;
+}
+
+/* Taskbar */
+.win-taskbar {
+  background-color: #d4d0c8;
+  border-top: 2px solid #ffffff;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Start button */
+.win-start-btn {
+  background-color: #d4d0c8;
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  font-family: "Tahoma", "Arial", sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Scrollbar styling (best-effort in CSS) */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  background-color: #d4d0c8;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #c0c0c0;
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+}
+::-webkit-scrollbar-button {
+  background-color: #d4d0c8;
+  border: 2px solid;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #404040;
+  border-right-color: #404040;
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #d4d0c8;
+}
+
+/* Marquee/ticker strip */
+.win-ticker {
+  background-color: #000080;
+  color: #ffffff;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  padding: 2px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Blink animation */
+@keyframes win-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.win-blink {
+  animation: win-blink 1s infinite;
+}
+
+/* Dotted separator */
+.win-separator {
+  border: none;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  margin: 4px 0;
+}
+
+/* Menu bar */
+.win-menubar {
+  background-color: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 11px;
+}
+
+.win-menubar-item {
+  padding: 3px 8px;
+  cursor: pointer;
+  color: #000000;
+  text-decoration: none !important;
+  font-size: 11px;
+}
+
+.win-menubar-item:hover {
+  background-color: #000080;
+  color: #ffffff;
+}
+
+/* WhatsApp floating button - Win2000 style */
 @keyframes pulse-whatsapp {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .animate-whatsapp {
   animation: pulse-whatsapp 3s infinite;
 }
 
-.masonry-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-auto-rows: 10px;
-  gap: 20px;
+/* Content area */
+.win-content {
+  background-color: #ffffff;
+  border: 2px solid;
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+  padding: 8px;
+}
+
+/* Progress bar segments */
+.win-progress-fill {
+  background: repeating-linear-gradient(
+    to right,
+    #000080 0px,
+    #000080 10px,
+    #3070d0 10px,
+    #3070d0 12px
+  );
+}
+
+/* Table cell */
+.win-td {
+  border: 1px solid #808080;
+  padding: 4px 8px;
+  background-color: #ffffff;
+}
+
+/* Input field */
+.win-input {
+  border: 2px solid;
+  border-top-color: #404040;
+  border-left-color: #404040;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+  background-color: #ffffff;
+  font-family: "Tahoma", "Arial", sans-serif;
+  font-size: 11px;
+  padding: 2px 4px;
+  outline: none;
+  color: #000000;
+}
+
+.win-input:focus {
+  outline: 1px dotted #000000;
+  outline-offset: -3px;
 }
