@@ -1,18 +1,7 @@
 import { Award, Users } from 'lucide-react';
-import { motion } from 'motion/react';
+import { FadeIn } from './fade-in';
 
 export function AboutSection() {
-  const FadeIn = ({ children, delay = 0, y = 20, x = 0, ...props }: any) => (
-    <motion.div
-      initial={{ opacity: 0, y, x }}
-      whileInView={{ opacity: 1, y: 0, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
 
   return (
     <section id="sobre" className="py-24 bg-gray-50">
