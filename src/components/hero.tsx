@@ -34,7 +34,7 @@ export function Hero() {
           className="w-full h-full object-cover opacity-50"
         >
           <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-scales-of-justice-close-up-34532-large.mp4"
+            src="https://assets.mixkit.co/videos/23112/23112-720.mp4"
             type="video/mp4"
           />
           O seu navegador não suporta a tag de vídeo.
