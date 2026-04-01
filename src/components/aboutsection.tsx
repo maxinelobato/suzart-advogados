@@ -21,7 +21,7 @@ export function AboutSection() {
           <FadeIn x={-30}>
             <div className="order-2 lg:order-1">
               <img
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800"
+                src="https://lh3.googleusercontent.com/p/AF1QipM30Wz-5LZ78RnVlLuW7MK0oiAIFMMo4eoom19l=s800-k-no"
                 alt="Advogado"
                 className="w-4/5 mx-auto lg:w-full rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-500"
                 loading="lazy"

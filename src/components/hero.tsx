@@ -95,14 +95,14 @@ export function Hero() {
             }}
             className="text-5xl md:text-7xl lg:text-8xl font-serif text-white font-bold leading-[0.95] mb-10 tracking-tighter perspective-1000"
           >
-            Defesa e Proteção <br />
+            Defesa e Proteção
             <span className="text-gold relative inline-block italic">
               dos seus Direitos
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 transition={{ delay: 1.5, duration: 1.2, ease: 'easeInOut' }}
-                className="absolute -bottom-3 left-0 h-2 bg-gold/40 rounded-full blur-[1px]"
+                className="absolute -bottom-3 left-0 h-1 bg-gold/40 rounded-full blur-[1px]"
               />
             </span>
           </motion.h1>

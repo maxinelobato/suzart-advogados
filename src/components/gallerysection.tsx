@@ -14,10 +14,19 @@ export function GallerySection() {
   );
 
   const GALLERY = [
-    { url: 'https://picsum.photos/seed/law1/800/600', size: 'h-[300px]' },
-    { url: 'https://picsum.photos/seed/law2/600/800', size: 'h-[400px]' },
-    { url: 'https://picsum.photos/seed/law3/800/800', size: 'h-[350px]' },
-    { url: 'https://picsum.photos/seed/law4/700/500', size: 'h-[250px]' },
+    // {
+    //   url: 'https://lh3.googleusercontent.com/p/AF1QipPBxA0zO7448UOu-E5VUQO_ooCmzIAqIQOvc1WE=s474-k-no',
+    //   size: 'h-[300px]',
+    // },
+    {
+      url: 'https://lh3.googleusercontent.com/p/AF1QipPEYfY-4Yi56ijgEctnZMzeKri5eWSS-bx-j0eO=s635-k-no',
+      size: 'h-[400px]',
+    },
+    // { url: 'https://picsum.photos/seed/law3/800/800', size: 'h-[350px]' },
+    {
+      url: 'https://lh3.googleusercontent.com/p/AF1QipMcxq9Iz2oabfPrlIyhk3MLVlPJ1qtZn4g4L02_=s544-k-no',
+      size: 'h-[250px]',
+    },
   ];
 
   return (
@@ -34,7 +43,7 @@ export function GallerySection() {
           </div>
         </FadeIn>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="columns-1 md:columns-2 lg:columns-2 gap-6 space-y-6">
           {GALLERY.map((img, i) => (
             <motion.div
               key={i}
